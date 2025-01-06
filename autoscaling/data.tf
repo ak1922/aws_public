@@ -1,3 +1,2 @@
-data "aws_vpc" "vpc" {
-
-}
+# AWS caller identity.
+data "aws_caller_identity" "current" {}

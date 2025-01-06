@@ -9,4 +9,11 @@ terraform {
 
 provider "aws" {
   region = var.region
+  default_tags {
+    tags = {
+      managed_by = "Terraform"
+      owner      = var.project_owner
+      department = var.department
+    }
+  }
 }

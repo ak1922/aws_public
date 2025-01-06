@@ -1,10 +1,11 @@
 # Project tags
 locals {
   tags = {
-    managed_by = "Terraform"
-    gitrepo    = "aws_public"
-    gitbranch  = "autoscaling"
+    environment       = var.environment
+    repository        = "aws_public"
+    repository_branch = "autoscaling"
+    depolyed_by       = data.aws_caller_identity.current.arn
   }
 
-  common_name = trim(replace(local.tags.gitrepo, "_", ""))
+  comman_name = lower(join("", [substr(var.department, 0, 3), var.environment]))
 }
