@@ -1,8 +1,34 @@
+terraform {
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "2.5.1"
+    }
+  }
+}
+# RSA private key
+resource "tls_private_key" "rsa_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Define key pair
+resource "aws_key_pair" "keypair" {
+  key_name   = "${local.comman_name}-key"
+  public_key = tls_private_key.rsa_key.public_key_openssh
+}
+
+# Local file for private key
+resource "local_file" "private_key" {
+  filename = "${local.comman_name}-privatekey"
+  content  = tls_private_key.rsa_key.private_key_pem
+}
+
 # Launch template
 resource "aws_launch_template" "template" {
   name                   = "${local.comman_name}-lt"
   instance_type          = var.instance_type
-  key_name               = var.key_name
+  key_name               = "${local.comman_name}-key"
   image_id               = data.aws_ami.ami.id
   update_default_version = true
   vpc_security_group_ids = [aws_security_group.alb_group.id]
