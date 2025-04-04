@@ -41,27 +41,18 @@ variable "inst_type" {
 variable "security_rule_elb" {
   description = "Security group rule for security groups."
   type = list(object({
-    port            = number
-    protocol        = string
-    cidr_blocks     = optional(list(string))
-    security_groups = optional(list(string))
+    port        = number
+    description = string
   }))
 
   default = [
     {
       port        = 80
-      cidr_blocks = ["0.0.0.0/0"]
-      protocol    = "tcp"
+      description = "Allow http traffic"
     },
     {
-      cidr_blocks = ["0.0.0.0/0"]
-      port        = 22
-      protocol    = "tcp"
-    },
-    {
-      cidr_blocks = ["0.0.0.0/0"]
       port        = 443
-      protocol    = "tcp"
+      description = "Allow https traffic"
     }
   ]
 }

@@ -9,12 +9,6 @@ data "aws_subnet" "private_subnetid" {
   id       = each.value
 }
 
-# Data source public subnets
-data "aws_subnet" "public_subnetid" {
-  for_each = toset(var.public_subnets)
-  id       = each.value
-}
-
 # Data source AMI
 data "aws_ami" "linux_ami" {
   most_recent = true
