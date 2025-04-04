@@ -9,3 +9,7 @@ locals {
 
   common_name = join("", [substr(var.app, 0, 4), var.env, "asapp"])
 }
+
+locals {
+  ec2_ports = [22, 443]
+}

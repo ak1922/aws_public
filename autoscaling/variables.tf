@@ -65,3 +65,9 @@ variable "security_rule_elb" {
     }
   ]
 }
+
+variable "image" {
+  type        = string
+  description = "AMI for launch template"
+  default     = "ami-08a0d1e16fc3f61ea"
+}

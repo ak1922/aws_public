@@ -48,18 +48,21 @@ resource "aws_security_group" "ec2_security_group" {
   name   = "${local.common_name}_ec2_sg"
   vpc_id = data.aws_vpc.network.id
 
-  ingress {
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.loadbalancer_group.id]
+  dynamic "ingress" {
+    for_each = local.ec2_ports
+    content {
+      from_port       = ingress.value
+      to_port         = ingress.value
+      protocol        = "tcp"
+      security_groups = [aws_security_group.loadbalancer_group.id]
+    }
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.loadbalancer_group.id]
   }
 
   tags = {
